@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import api.Game;
 import api.Chip;
+import exc.GameIndexOutOfBoundsException;
 
 public class ConnectFour extends Game {
   // We only store numRows as the global source of truth for the numColumns should
