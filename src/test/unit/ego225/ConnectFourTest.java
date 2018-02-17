@@ -11,17 +11,11 @@ import static org.junit.Assert.assertTrue;
 
 public class ConnectFourTest {
     @Test
-    public void testDefaultConstructor() {
-        Game game = new ConnectFour();
-        assertEquals("has 6 rows", 6, game.getRows());
-        assertEquals("has 7 columns", 7, game.getColumns());
-    }
-
-    // This simultaneously tests that getChip functions (at least partially)
-    // the way we want it and that the board starts empty
-    @Test
-    public void boardStartsEmpty() {
+    public void testInitialState() {
       Game game = new ConnectFour();
+      assertEquals("has 6 rows", 6, game.getRows());
+      assertEquals("has 7 columns", 7, game.getColumns());
+
       boolean boardIsEmpty = true;
       for (int i = 0; i < 7; i++) {
         for (int j = 0; j < 6; j++) {
@@ -29,5 +23,7 @@ public class ConnectFourTest {
         }
       }
       assertTrue("Board starts empty", boardIsEmpty);
+
+      assertEquals("Red starts", Chip.RED, game.getCurrentPlayer());
     }
 }
