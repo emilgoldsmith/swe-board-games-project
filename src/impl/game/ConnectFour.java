@@ -26,11 +26,11 @@ public class ConnectFour extends Game {
   }
 
   public int getRows() {
-    return 0;
+    return numRows;
   }
 
   public int getColumns() {
-    return 0;
+    return board.size();
   }
 
   public Chip getChip(int row, int column) {
