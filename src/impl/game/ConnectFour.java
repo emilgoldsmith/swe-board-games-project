@@ -15,6 +15,8 @@ public class ConnectFour extends Game {
   private List<Chip[]> board;
   private int currentPlayerIndex;
   private final Chip[] players = {Chip.RED, Chip.BLUE};
+  private Chip winner;
+  private boolean gameOver = false;
 
   public ConnectFour() {
     // 6 rows and 7 columns by default, we represent the board as a List of columns
@@ -74,15 +76,45 @@ public class ConnectFour extends Game {
     this.currentPlayerIndex = (this.currentPlayerIndex + 1) % 2;
   }
 
-  public Chip getWinningPlayer() {
-    return Chip.EMPTY;
+  public Chip getWinningPlayer() throws GameStateException {
+    if (!this.isGameOver()) {
+      throw new GameStateException();
+    }
+    return winner;
   }
 
   public Chip getCurrentPlayer() {
+    if (this.isGameOver()) {
+      return Chip.EMPTY;
+    }
     return this.players[this.currentPlayerIndex];
   }
 
   public boolean isGameOver() {
+    if (gameOver) {
+      return true;
+    }
+    for (int row = 0; row < this.getRows(); row++) {
+      for (int column = 0; column < this.getColumns(); column++) {
+        // If it's empty no ones going to have a winning combination including this square
+        if (this.getChip(row, column) == Chip.EMPTY) continue;
+        boolean hasRowWinner = row + 3 < this.getRows();
+        boolean hasColumnWinner = column + 3 < this.getColumns();
+        boolean hasDiagonalOneWinner = hasRowWinner && hasColumnWinner;
+        boolean hasDiagonalTwoWinner = hasRowWinner && column - 3 >= 0;
+        for (int inc = 1; inc < 4; inc++) {
+          hasRowWinner = hasRowWinner && this.getChip(row + inc, column) == this.getChip(row, column);
+          hasColumnWinner = hasColumnWinner && this.getChip(row, column + inc) == this.getChip(row, column);
+          hasDiagonalOneWinner = hasDiagonalOneWinner && this.getChip(row + inc, column + inc) == this.getChip(row, column);
+          hasDiagonalTwoWinner = hasDiagonalTwoWinner && this.getChip(row + inc, column - inc) == this.getChip(row, column);
+        }
+        if (hasRowWinner || hasColumnWinner || hasDiagonalOneWinner || hasDiagonalTwoWinner) {
+          winner = this.getChip(row, column);
+          gameOver = true;
+          return true;
+        }
+      }
+    }
     return false;
   }
 }

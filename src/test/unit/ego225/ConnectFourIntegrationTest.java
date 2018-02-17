@@ -12,6 +12,7 @@ import org.junit.Before;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 public class ConnectFourIntegrationTest {
 
@@ -49,5 +50,65 @@ public class ConnectFourIntegrationTest {
     assertEquals("RED Chip was succesfully placed in column 0", Chip.RED, game.getChip(game.getRows() - 1, 0));
 
     assertEquals("Turn changed to BLUE player", Chip.BLUE, game.getCurrentPlayer());
+  }
+
+  @Test
+  public void testWinningHorizontally() throws GameStateException {
+    for (int i = 0; i < 4; i++) {
+      for (int j = 0; j < 2; j++) {
+        if (j == 1 && i == 3) continue;
+        assertFalse("Should not have finished yet", game.isGameOver());
+        game.placeChip(0, i);
+      }
+    }
+    assertTrue("Should have finished now", game.isGameOver());
+    assertEquals("RED should have won", Chip.RED, game.getWinningPlayer());
+  }
+
+  @Test
+  public void testWinningVertically() throws GameStateException {
+    for (int i = 0; i < 4; i++) {
+      for (int j = 0; j < 2; j++) {
+        if (j == 1 && i == 3) continue;
+        assertFalse("Should not have finished yet", game.isGameOver());
+        game.placeChip(0, j);
+      }
+    }
+    assertTrue("Should have finished now", game.isGameOver());
+    assertEquals("RED should have won", Chip.RED, game.getWinningPlayer());
+  }
+
+  @Test
+  public void testWinningDiagonalOne() throws GameStateException {
+    for (int i = 5; i >= 2; i--) {
+      for (int j = 0; j < 6; j++) {
+        if (i == 2 && j == 1) break;
+        assertFalse("Should not have finished yet", game.isGameOver());
+        game.placeChip(0, i);
+      }
+      if (i > 2) {
+        // Make sure we change turns to who goes first on the column
+        game.placeChip(0, 0);
+      }
+    }
+    assertTrue("Should have finished now", game.isGameOver());
+    assertEquals("BLUE should have won", Chip.BLUE, game.getWinningPlayer());
+  }
+
+  @Test
+  public void testWinningDiagonalTwo() throws GameStateException {
+    for (int i = 0; i < 4; i++) {
+      for (int j = 0; j < 6; j++) {
+        if (i == 3 && j == 1) break;
+        assertFalse("Should not have finished yet", game.isGameOver());
+        game.placeChip(0, i);
+      }
+      if (i < 3) {
+        // Make sure we change turns to who goes first on the column
+        game.placeChip(0, 6);
+      }
+    }
+    assertTrue("Should have finished now", game.isGameOver());
+    assertEquals("BLUE should have won", Chip.BLUE, game.getWinningPlayer());
   }
 }
