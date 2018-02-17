@@ -34,7 +34,7 @@ public class ConnectFour extends Game {
   }
 
   public Chip getChip(int row, int column) {
-    return Chip.EMPTY;
+    return board.get(column)[row];
   }
 
   public void placeChip(int row, int column) {
