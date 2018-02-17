@@ -10,7 +10,7 @@ import org.junit.Rule;
 import org.junit.Before;
 import org.junit.rules.ExpectedException;
 
-public class PickChipTest {
+public class GetChipTest {
   private Game game;
 
   @Rule
@@ -46,7 +46,7 @@ public class PickChipTest {
   }
 
   // This test assumes that the size of the board is 7x6 as using the
-  // getColumns and getRows functions would make it more of an integration test
+  // getColumns and getRows methods would make it more of an integration test
   @Test
   public void doesntThrowInsideBoard() {
     for (int i = 0; i < 7; i++) {

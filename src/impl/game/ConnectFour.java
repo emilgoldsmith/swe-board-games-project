@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import api.Game;
 import api.Chip;
 import exc.GameIndexOutOfBoundsException;
+import exc.GameStateException;
 
 public class ConnectFour extends Game {
   // We only store numRows as the global source of truth for the numColumns should
@@ -41,11 +42,36 @@ public class ConnectFour extends Game {
   }
 
   public Chip getChip(int row, int column) {
+    if (row < 0 || row >= this.getRows() || column < 0 || column >= this.getColumns()) {
+      throw new GameIndexOutOfBoundsException(row, column);
+    }
     return this.board.get(column)[row];
   }
 
-  public void placeChip(int row, int column) {
+  public void placeChip(int row, int column) throws GameStateException {
+    if (this.isGameOver()) {
+      throw new GameStateException();
+    }
 
+    if (row < 0 || row >= this.getRows() || column < 0 || column >= this.getColumns()) {
+      throw new GameIndexOutOfBoundsException(row, column);
+    }
+
+    if (this.getChip(row, column) != Chip.EMPTY) {
+      throw new GameStateException();
+    }
+
+    // Drop the chip
+    int finalRow = row;
+    for (; finalRow < this.getRows() && this.getChip(finalRow, column) == Chip.EMPTY; finalRow++);
+    // Decrement since the one we arrived at was invalid
+    finalRow--;
+
+    // Place chip for current player
+    this.board.get(column)[finalRow] = this.getCurrentPlayer();
+
+    // Make it the next players turn
+    this.currentPlayerIndex = (this.currentPlayerIndex + 1) % 2;
   }
 
   public Chip getWinningPlayer() {
