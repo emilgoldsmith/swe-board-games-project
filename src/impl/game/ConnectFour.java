@@ -74,6 +74,10 @@ public class ConnectFour extends Game {
 
     // Make it the next players turn
     this.currentPlayerIndex = (this.currentPlayerIndex + 1) % 2;
+
+    // Notify the view
+    this.setChanged();
+    this.notifyObservers();
   }
 
   public Chip getWinningPlayer() throws GameStateException {
