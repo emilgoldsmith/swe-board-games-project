@@ -111,4 +111,39 @@ public class ConnectFourIntegrationTest {
     assertTrue("Should have finished now", game.isGameOver());
     assertEquals("BLUE should have won", Chip.BLUE, game.getWinningPlayer());
   }
+
+  @Test
+  public void testTie() throws GameStateException {
+    // This is just implementing a simple "algorithm" that will result in a tie
+    // Generally just alternate which player has chips in each column and swap it
+    // for the upper half, and for the implementation that leaves a special case
+    // for the last column
+    int cnt = 0;
+    for (int column = 0; column < 7; column += 2) {
+      for (int row = 0; row < 6; row++) {
+        int player1Col = column;
+        int player2Col = column + 1;
+        if (column < 6 && row >= 3) {
+          player1Col = column + 1;
+          player2Col = column;
+        }
+
+        for (int player = 0; player < 2; player++) {
+          if (!(player == 1 && column == 6)) {
+            assertFalse("Should not have finished yet", game.isGameOver());
+          }
+          if (player == 0) {
+            game.placeChip(0, player1Col);
+            cnt++;
+          } else if (column < 6) {
+            game.placeChip(0, player2Col);
+            cnt++;
+          }
+        }
+      }
+    }
+
+    assertTrue("Should have finished now", game.isGameOver());
+    assertEquals("It should be a tie", Chip.EMPTY, game.getWinningPlayer());
+  }
 }

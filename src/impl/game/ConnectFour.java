@@ -115,6 +115,24 @@ public class ConnectFour extends Game {
         }
       }
     }
-    return false;
+
+    // No one has won yet so we check whether it is a tie
+    boolean boardIsFull = true;
+    for (int row = 0; row < 6; row++) {
+      for (int column = 0; column < 7; column++) {
+        if (this.getChip(row, column) == Chip.EMPTY) {
+          boardIsFull = false;
+          break;
+        }
+      }
+      if (!boardIsFull) break;
+    }
+
+    // Game is over if board is full, otherwise we can still play on
+    if (boardIsFull) {
+      gameOver = true;
+      winner = Chip.EMPTY;
+    }
+    return gameOver;
   }
 }
