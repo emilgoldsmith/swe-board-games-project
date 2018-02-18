@@ -91,7 +91,7 @@ public class ConnectFour extends Game {
   }
 
   public boolean isGameOver() {
-    if (gameOver) {
+    if (this.gameOver) {
       return true;
     }
     for (int row = 0; row < this.getRows(); row++) {
@@ -109,8 +109,8 @@ public class ConnectFour extends Game {
           hasDiagonalTwoWinner = hasDiagonalTwoWinner && this.getChip(row + inc, column - inc) == this.getChip(row, column);
         }
         if (hasRowWinner || hasColumnWinner || hasDiagonalOneWinner || hasDiagonalTwoWinner) {
-          winner = this.getChip(row, column);
-          gameOver = true;
+          this.winner = this.getChip(row, column);
+          this.gameOver = true;
           return true;
         }
       }
@@ -130,9 +130,9 @@ public class ConnectFour extends Game {
 
     // Game is over if board is full, otherwise we can still play on
     if (boardIsFull) {
-      gameOver = true;
-      winner = Chip.EMPTY;
+      this.gameOver = true;
+      this.winner = Chip.EMPTY;
     }
-    return gameOver;
+    return this.gameOver;
   }
 }
