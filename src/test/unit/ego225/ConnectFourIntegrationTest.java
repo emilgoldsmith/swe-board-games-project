@@ -9,6 +9,7 @@ import exc.GameStateException;
 import org.junit.Test;
 import org.junit.Rule;
 import org.junit.Before;
+import org.junit.rules.ExpectedException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -17,6 +18,9 @@ import static org.junit.Assert.assertFalse;
 public class ConnectFourIntegrationTest {
 
   private Game game;
+
+  @Rule
+  public final ExpectedException exception = ExpectedException.none();
 
   @Before
   public void setup() {
@@ -145,5 +149,12 @@ public class ConnectFourIntegrationTest {
 
     assertTrue("Should have finished now", game.isGameOver());
     assertEquals("It should be a tie", Chip.EMPTY, game.getWinningPlayer());
+  }
+
+  @Test
+  public void testGetWinningPlayerBeforeFinished() throws GameStateException {
+    assertFalse("Should not have finished yet", game.isGameOver());
+    exception.expect(GameStateException.class);
+    game.getWinningPlayer();
   }
 }
