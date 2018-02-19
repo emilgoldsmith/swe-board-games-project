@@ -55,12 +55,14 @@ public class ConnectFour extends Game {
       throw new GameStateException();
     }
 
-    if (row < 0 || row >= this.getRows() || column < 0 || column >= this.getColumns()) {
+    // You are only allowed to place chips in row 0
+    if (row != 0 || column < 0 || column >= this.getColumns()) {
       throw new GameIndexOutOfBoundsException(row, column);
     }
 
+    // We interpret this as "out of bounds according to the rules of the game"
     if (this.getChip(row, column) != Chip.EMPTY) {
-      throw new GameStateException();
+      throw new GameIndexOutOfBoundsException(row, column);
     }
 
     // Drop the chip

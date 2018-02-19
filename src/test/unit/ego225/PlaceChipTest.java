@@ -25,25 +25,32 @@ public class PlaceChipTest {
   @Test
   public void throwsOnNegativeColumn() throws GameStateException {
     exception.expect(GameIndexOutOfBoundsException.class);
-    game.placeChip(-1, 0);
-  }
-
-  @Test
-  public void throwsOnNegativeRow() throws GameStateException {
-    exception.expect(GameIndexOutOfBoundsException.class);
     game.placeChip(0, -1);
-  }
-
-  @Test
-  public void throwsOnTooHighRow() throws GameStateException {
-    exception.expect(GameIndexOutOfBoundsException.class);
-    game.placeChip(0, 10);
   }
 
   @Test
   public void throwsOnTooHighColumn() throws GameStateException {
     exception.expect(GameIndexOutOfBoundsException.class);
-    game.placeChip(10, 0);
+    game.placeChip(0, 10);
+  }
+
+  @Test
+  public void throwsOnNegativeRow() throws GameStateException {
+    exception.expect(GameIndexOutOfBoundsException.class);
+    game.placeChip(-1, 0);
+  }
+
+  @Test
+  public void throwsOnTooHighRow() throws GameStateException {
+    exception.expect(GameIndexOutOfBoundsException.class);
+    game.placeChip(1, 0);
+  }
+
+  @Test
+  public void doesntThrowOnZeroRow() throws GameStateException {
+    for (int i = 0; i < 7; i++) {
+      game.placeChip(0, i);
+    }
   }
 
   // This test assumes that the size of the board is 7x6 as using the
@@ -55,7 +62,7 @@ public class PlaceChipTest {
       game.placeChip(0, 0);
     }
     // Here we expect it to throw
-    exception.expect(GameStateException.class);
+    exception.expect(GameIndexOutOfBoundsException.class);
     game.placeChip(0, 0);
   }
 }
