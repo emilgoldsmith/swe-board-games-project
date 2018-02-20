@@ -18,6 +18,8 @@ import static org.junit.Assert.assertFalse;
 public class ConnectFourIntegrationTest {
 
   private Game game;
+  private Chip player1Chip;
+  private Chip player2Chip;
 
   @Rule
   public final ExpectedException exception = ExpectedException.none();
@@ -25,6 +27,12 @@ public class ConnectFourIntegrationTest {
   @Before
   public void setup() {
     this.game = new ConnectFour();
+    this.player1Chip = game.getCurrentPlayer();
+    if (this.player1Chip == Chip.RED) {
+      this.player2Chip = Chip.BLUE;
+    } else {
+      this.player2Chip = Chip.RED;
+    }
   }
 
   @Test
@@ -40,20 +48,20 @@ public class ConnectFourIntegrationTest {
     }
     assertTrue("Board starts empty", boardIsEmpty);
 
-    assertEquals("Red starts", Chip.RED, game.getCurrentPlayer());
+    assertTrue("There is a player in the start", game.getCurrentPlayer() != Chip.EMPTY);
   }
 
   @Test
   public void testMoveTransition() throws GameStateException {
     assertEquals("column 0 has empty bottom", Chip.EMPTY, game.getChip(game.getRows() - 1, 0));
 
-    assertEquals("Initially RED players turn", Chip.RED, game.getCurrentPlayer());
+    assertTrue("There is a player in the start", game.getCurrentPlayer() != Chip.EMPTY);
 
     game.placeChip(0, 0);
 
-    assertEquals("RED Chip was succesfully placed in column 0", Chip.RED, game.getChip(game.getRows() - 1, 0));
+    assertEquals("First player's Chip was succesfully placed in column 0", this.player1Chip, game.getChip(game.getRows() - 1, 0));
 
-    assertEquals("Turn changed to BLUE player", Chip.BLUE, game.getCurrentPlayer());
+    assertEquals("Turn changed to next player", this.player2Chip, game.getCurrentPlayer());
   }
 
   @Test
@@ -66,7 +74,7 @@ public class ConnectFourIntegrationTest {
       }
     }
     assertTrue("Should have finished now", game.isGameOver());
-    assertEquals("RED should have won", Chip.RED, game.getWinningPlayer());
+    assertEquals("Player 1 should have won", this.player1Chip, game.getWinningPlayer());
   }
 
   @Test
@@ -79,7 +87,7 @@ public class ConnectFourIntegrationTest {
       }
     }
     assertTrue("Should have finished now", game.isGameOver());
-    assertEquals("RED should have won", Chip.RED, game.getWinningPlayer());
+    assertEquals("Player 1 should have won", this.player1Chip, game.getWinningPlayer());
   }
 
   @Test
@@ -96,7 +104,7 @@ public class ConnectFourIntegrationTest {
       }
     }
     assertTrue("Should have finished now", game.isGameOver());
-    assertEquals("BLUE should have won", Chip.BLUE, game.getWinningPlayer());
+    assertEquals("Player 2 should have won", this.player2Chip, game.getWinningPlayer());
   }
 
   @Test
@@ -113,7 +121,7 @@ public class ConnectFourIntegrationTest {
       }
     }
     assertTrue("Should have finished now", game.isGameOver());
-    assertEquals("BLUE should have won", Chip.BLUE, game.getWinningPlayer());
+    assertEquals("Player 2 should have won", this.player2Chip, game.getWinningPlayer());
   }
 
   @Test
