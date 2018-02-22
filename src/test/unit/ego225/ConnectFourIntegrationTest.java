@@ -156,7 +156,9 @@ public class ConnectFourIntegrationTest {
     }
 
     assertTrue("Should have finished now", game.isGameOver());
-    assertEquals("It should be a tie", Chip.EMPTY, game.getWinningPlayer());
+    // On a tie it should throw an exception
+    exception.expect(GameStateException.class);
+    game.getWinningPlayer();
   }
 
   @Test

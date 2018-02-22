@@ -86,6 +86,11 @@ public class ConnectFour extends Game {
     if (!this.isGameOver()) {
       throw new GameStateException();
     }
+    // Game is over
+    if (winner == Chip.EMPTY) {
+      // It was a tie so we throw exception as per specification
+      throw new GameStateException();
+    }
     return winner;
   }
 
