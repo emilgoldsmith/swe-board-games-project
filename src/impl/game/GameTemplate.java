@@ -76,6 +76,13 @@ public abstract class GameTemplate extends Game {
     return new int[] {row, column};
   }
 
+  /**
+   * Again a default, this allows special behaviour around placing if a game wants that
+   */
+  protected void handlePlaceChip(int row, int column, Chip chip) {
+    this.board.get(column)[row] = chip;
+  }
+
   public final void placeChip(int row, int column) throws GameStateException {
     if (this.isGameOver()) {
       throw new GameStateException();
@@ -90,7 +97,7 @@ public abstract class GameTemplate extends Game {
     int finalColumn = finalRowAndColumn[1];
 
     // Place chip for current player
-    this.board.get(finalColumn)[finalRow] = this.getCurrentPlayer();
+    this.handlePlaceChip(finalRow, finalColumn, this.getCurrentPlayer());
 
     // Make it the next players turn
     this.currentPlayerIndex = (this.currentPlayerIndex + 1) % 2;
