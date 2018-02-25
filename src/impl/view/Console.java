@@ -11,7 +11,6 @@ import java.util.Scanner;
 
 public class Console extends View {
   private Game observableGame;
-  private Random rng = new Random();
 
   public Console(Game game) {
     this.observableGame = game;
