@@ -48,8 +48,8 @@ public class ConnectFour extends GameTemplate {
 
     // No one has won yet so we check whether it is a tie
     boolean boardIsFull = true;
-    for (int row = 0; row < 6; row++) {
-      for (int column = 0; column < 7; column++) {
+    for (int row = 0; row < this.getRows(); row++) {
+      for (int column = 0; column < this.getColumns(); column++) {
         if (this.getChip(row, column) == Chip.EMPTY) {
           // No winner
           return new Chip[] {Chip.EMPTY, Chip.EMPTY};

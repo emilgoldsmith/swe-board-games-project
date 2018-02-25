@@ -23,8 +23,8 @@ public abstract class GameTemplate extends Game {
    * we can't really use the template pattern here
    */
   protected final void initializeBoard(int rows, int columns) {
-    this.numRows = 6;
-    int numColumns = 7;
+    this.numRows = rows;
+    int numColumns = columns;
     this.board = new ArrayList<Chip[]>();
     for (int i = 0; i < numColumns; i++) {
       Chip[] singleColumn = new Chip[numRows];
