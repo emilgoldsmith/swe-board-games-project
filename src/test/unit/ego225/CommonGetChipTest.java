@@ -6,19 +6,15 @@ import impl.game.ConnectFour;
 import impl.game.Complica;
 import impl.game.TicTacToe;
 import exc.GameIndexOutOfBoundsException;
-import exc.GameStateException;
 
 import java.util.Arrays;
 
 import org.junit.Test;
 import org.junit.Rule;
-import org.junit.Before;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-
-import java.lang.System;
 
 @RunWith(Parameterized.class)
 public class CommonGetChipTest {
@@ -28,7 +24,7 @@ public class CommonGetChipTest {
     this.game = game;
   }
 
-  @Parameters
+  @Parameters ( name = "{0}" )
   public static Iterable<Game> parameters() {
       return Arrays.asList(new ConnectFour(),
                             new Complica(),
